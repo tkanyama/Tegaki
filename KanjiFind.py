@@ -43,7 +43,7 @@ def imwrite(filename, img, params=None):
 
 class kanji_find:
     def __init__(self):
-        self.model_filename = 'etl9b_model15-1_32_2048_100_02.h5'
+        self.model_filename = 'y:\kanyama\kerasData\etl9b_model15-1_32_2048_100_02.h5'
         # self.model_filename = 'etl9b_model12-1_32_2048_150_01.h5'
         # self.model_filename = 'etl9b_model8-1_32_2048_150_01.h5'
         # self.model_filename = 'etl9b_model7-2_32_2048_150_01.h5'
@@ -51,7 +51,7 @@ class kanji_find:
         # self.model_filename = 'etl9b_model13_32_2048_100_01.h5'
 
         self.model = load_model(self.model_filename)
-        self.jis_code_file = 'ETL9B_KANA_JIS_CODE.picle'
+        self.jis_code_file = 'y:\kanyama\kerasData\ETL9B_KANA_JIS_CODE.picle'
         (self.code_mat) = pickle.load(open(self.jis_code_file, "rb"))
 
     def kanji_text(self, _image_main = None, PLOT_FLAG = False):
