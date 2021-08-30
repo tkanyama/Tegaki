@@ -4,8 +4,19 @@ import matplotlib.pyplot as plt
 matplotlib.use('WXAgg')
 import numpy as np
 import os
+import platform
+
+osname = platform.system()
+if osname == "Darwin":
+    import plaidml.keras
+    plaidml.keras.install_backend()
+    home = '/Volumes/Disk1/kanyama/kerasData'
+elif osname == "Windows":
+    home = 'Y:/kanyama/kerasData'
 # import plaidml.keras
 # plaidml.keras.install_backend()
+import tensorflow.compat.v1  as tf
+from tensorflow.compat.v1 import keras
 import keras
 from keras.models import load_model
 from scipy import signal
@@ -43,16 +54,30 @@ def imwrite(filename, img, params=None):
 
 class kanji_find:
     def __init__(self):
+        home = ''
+        if osname == "Darwin":
+            home = '/Volumes/disk1/kanyama/kerasData'
+            self.model_filename = home + '/etl9b_model15-1_32_2048_50_Mac01.h5'
+            # self.model_filename = '/Volumes/Disk1/kanyama/kerasData/etl9b_model15-1_32_2048_100_02.h5'
+            # self.jis_code_file = '/Volumes/Disk1/kanyama/kerasData/ETL9B_KANA_JIS_CODE.picle'
+        elif osname == "Windows":
+            home = 'Y:/kanyama/kerasData'
+            self.model_filename = home + '/etl9b_model15-1_32_2048_100_02.h5'
+            # self.model_filename = 'y:/kanyama/kerasData/etl9b_model15-1_32_2048_100_02.h5'
+            # self.jis_code_file = 'y:/kanyama/kerasData/ETL9B_KANA_JIS_CODE.picle'
         # self.model_filename = '\\192.168.0.173\disk1\kanyama\kerasData\etl9b_model15-1_32_2048_100_02.h5'
-        self.model_filename = 'y:\kanyama\kerasData\etl9b_model15-1_32_2048_100_02.h5'
+        # self.model_filename = 'y:\kanyama\kerasData\etl9b_model15-1_32_2048_100_02.h5'
         # self.model_filename = 'etl9b_model12-1_32_2048_150_01.h5'
         # self.model_filename = 'etl9b_model8-1_32_2048_150_01.h5'
         # self.model_filename = 'etl9b_model7-2_32_2048_150_01.h5'
         # self.model_filename = 'etl9b_model3-2_32_2048_120_01.h5'
         # self.model_filename = 'etl9b_model13_32_2048_100_01.h5'
 
-        self.model = load_model(self.model_filename)
-        self.jis_code_file = 'y:\kanyama\kerasData\ETL9B_KANA_JIS_CODE.picle'
+        # self.model_filename = home + '/etl9b_model15-1_32_2048_100_02.h5'
+        self.jis_code_file = home + '/ETL9B_KANA_JIS_CODE.picle'
+
+        self.model = load_model(self.model_filename, compile=False)
+        # self.jis_code_file = 'y:\kanyama\kerasData\ETL9B_KANA_JIS_CODE.picle'
         (self.code_mat) = pickle.load(open(self.jis_code_file, "rb"))
 
     def kanji_text(self, _image_main = None, PLOT_FLAG = False):
